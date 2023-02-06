@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+
+</h:head>
+<h:body>
+	<div class="card">
+		<h:form>
+			<p:breadCrumb>
+				<p:menuitem />
+				<p:menuitem value="Página JSF " action="index.jsf" />
+				<p:menuitem value="Página Primefaces " action="primefaces.jsf" />
+			</p:breadCrumb>
+
+		</h:form>
+	</div>
+
+	<h:form id="formulario">
+		<p:messages showDetail="true" showSummary="false" id="msg" />
+
+		<h:panelGrid columns="2">
+			<h:outputLabel>Usuário: </h:outputLabel>
+			<h:outputText value="#{telefoneManegeBean.user.nome}" />
+
+			<h:outputLabel>Número: </h:outputLabel>
+			<h:inputText value="#{telefoneManegeBean.telefone.numero}" />
+			<h:outputLabel>Tipo: </h:outputLabel>
+			<h:inputText value="#{telefoneManegeBean.telefone.tipo}" />
+		</h:panelGrid>
+		<br />
+		<br />
+
+		<h:commandLink value="Salvar" action="#{telefoneManegeBean.salvar}"></h:commandLink>
+
+	</h:form>
+
+	<h:form id="formTelefones">
+
+		<h:dataTable value="#{telefoneManegeBean.user.telefoneUsers}"
+			var="fone" border="1">
+			<f:facet name="header">Lista de Telefones</f:facet>
+			<h:column headerText="Id">
+				<f:facet name="header">Id</f:facet>
+				<h:outputLabel value="#{fone.id}" />
+			</h:column>
+			<h:column headerText="Numero">
+				<f:facet name="header">Número</f:facet>
+				<h:outputLabel value="#{fone.numero}" />
+			</h:column>
+			<h:column headerText="tipo">
+				<f:facet name="header">Tipo</f:facet>
+				<h:outputLabel value="#{fone.tipo}" />
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">Remover</f:facet>
+				<h:commandLink action="#{telefoneManegeBean.removeTelefone}"
+					immediate="true" id="botaoremover">
+					<h:graphicImage url="resources/img/delete.png"
+						style="display:block; margin:auto;" />
+					<f:setPropertyActionListener value="#{fone}"
+						target="#{telefoneManegeBean.telefone}" />
+					<f:ajax execute="botaoremover" render="@form :formulario:msg" />
+				</h:commandLink>
+			</h:column>
+
+		</h:dataTable>
+
+
+	</h:form>
+
+
+
+</h:body>
+</html>

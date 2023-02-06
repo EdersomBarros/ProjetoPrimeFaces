@@ -5,7 +5,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
-import model.UsuarioPessoa;
 import projetohibernate.HibernateUtil;
 
 public class DaoGeneric<E> {
@@ -21,9 +20,10 @@ public class DaoGeneric<E> {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public E pesquisar(long id, Class<E> entidade) {
-
-		E e = (E) entityManager.find(entidade, id);
+		entityManager.clear();
+		E e = (E) entityManager.createQuery("from " + entidade.getSimpleName() + " where id= " + id).getSingleResult();
 
 		return e;
 
@@ -40,7 +40,7 @@ public class DaoGeneric<E> {
 
 	}
 
-	public void deletarPorId(E entidade) {
+	public void deletarPorId(E entidade) throws Exception{
 
 		Object id = HibernateUtil.getPrimaryKey(entidade);
 		EntityTransaction transaction = entityManager.getTransaction();
@@ -56,6 +56,7 @@ public class DaoGeneric<E> {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<E> listar(Class<E> entidade) {
 
 		EntityTransaction transaction = entityManager.getTransaction();

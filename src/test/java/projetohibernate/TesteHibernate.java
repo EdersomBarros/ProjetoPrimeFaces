@@ -53,7 +53,7 @@ public class TesteHibernate {
 		
 	}
 	@Test
-	public void testDelete() {
+	public void testDelete() throws Exception {
 		
 		DaoGeneric<UsuarioPessoa> daoGeneric = new DaoGeneric<UsuarioPessoa>();
 		
@@ -81,6 +81,7 @@ public class TesteHibernate {
 
 		DaoGeneric<UsuarioPessoa> daoGeneric = new DaoGeneric<UsuarioPessoa>();
 
+		@SuppressWarnings("unchecked")
 		List<UsuarioPessoa> list = daoGeneric.getEntityManager().createQuery(" from UsuarioPessoa").getResultList();
 		
 		for (UsuarioPessoa usuarioPessoa : list) {
