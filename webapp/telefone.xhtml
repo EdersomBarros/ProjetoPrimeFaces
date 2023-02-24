@@ -22,42 +22,38 @@
 	<h:form id="formulario">
 		<p:messages showDetail="true" showSummary="false" id="msg" />
 
-		<h:panelGrid columns="2">
-			<h:outputLabel>Usuário: </h:outputLabel>
+		<p:panelGrid columns="2">
+			<p:outputLabel>Usuário: </p:outputLabel>
 			<h:outputText value="#{telefoneManegeBean.user.nome}" />
 
-			<h:outputLabel>Número: </h:outputLabel>
-			<h:inputText value="#{telefoneManegeBean.telefone.numero}" />
-			<h:outputLabel>Tipo: </h:outputLabel>
-			<h:inputText value="#{telefoneManegeBean.telefone.tipo}" />
-		</h:panelGrid>
+			<p:outputLabel>Número: </p:outputLabel>
+			<p:inputText value="#{telefoneManegeBean.telefone.numero}" required="true" />
+			<p:outputLabel>Tipo: </p:outputLabel>
+			<p:inputText value="#{telefoneManegeBean.telefone.tipo}" />
+		</p:panelGrid>
 		<br />
 		<br />
 
-		<h:commandLink value="Salvar" action="#{telefoneManegeBean.salvar}"></h:commandLink>
+		<p:commandButton value="Salvar" action="#{telefoneManegeBean.salvar}" ajax="false"/>
 
 	</h:form>
 
 	<h:form id="formTelefones">
 
-		<h:dataTable value="#{telefoneManegeBean.user.telefoneUsers}"
+		<p:dataTable value="#{telefoneManegeBean.user.telefoneUsers}"
 			var="fone" border="1">
 			<f:facet name="header">Lista de Telefones</f:facet>
-			<h:column headerText="Id">
-				<f:facet name="header">Id</f:facet>
-				<h:outputLabel value="#{fone.id}" />
-			</h:column>
-			<h:column headerText="Numero">
-				<f:facet name="header">Número</f:facet>
-				<h:outputLabel value="#{fone.numero}" />
-			</h:column>
-			<h:column headerText="tipo">
-				<f:facet name="header">Tipo</f:facet>
-				<h:outputLabel value="#{fone.tipo}" />
-			</h:column>
+			<p:column headerText="Id">
+				<p:outputLabel value="#{fone.id}" />
+			</p:column>
+			<p:column headerText="Numero">
+				<p:outputLabel value="#{fone.numero}" />
+			</p:column>
+			<p:column headerText="tipo">
+				<p:outputLabel value="#{fone.tipo}" />
+			</p:column>
 
-			<h:column>
-				<f:facet name="header">Remover</f:facet>
+			<p:column headerText="Remover">
 				<h:commandLink action="#{telefoneManegeBean.removeTelefone}"
 					immediate="true" id="botaoremover">
 					<h:graphicImage url="resources/img/delete.png"
@@ -66,9 +62,9 @@
 						target="#{telefoneManegeBean.telefone}" />
 					<f:ajax execute="botaoremover" render="@form :formulario:msg" />
 				</h:commandLink>
-			</h:column>
+			</p:column>
 
-		</h:dataTable>
+		</p:dataTable>
 
 
 	</h:form>

@@ -38,8 +38,12 @@
 				value="#{usuarioPessoaManageBean.usuarioPessoa.sobrenome}"
 				required="true" pt:placeholder="Informe o Sobrenome"
 				requiredMessage="Informe o Sobrenome" />
+				
 			<p:outputLabel>Idade:</p:outputLabel>
 			<p:inputText value="#{usuarioPessoaManageBean.usuarioPessoa.idade}" />
+			
+			<p:outputLabel>Salário:</p:outputLabel>
+			<p:inputText value="#{usuarioPessoaManageBean.usuarioPessoa.salario}" />
 			
 			<p:outputLabel>Sexo:</p:outputLabel>
 			<p:selectOneMenu
@@ -69,23 +73,23 @@
 
 
 
-			<p:outputLabel>Email:</p:outputLabel>
-			<p:inputText value="#{usuarioPessoaManageBean.usuarioPessoa.email}" />
+			
 			<p:outputLabel>Login:</p:outputLabel>
 			<p:inputText value="#{usuarioPessoaManageBean.usuarioPessoa.login}" />
 
 			<p:outputLabel>Senha:</p:outputLabel>
-			<h:inputSecret value="#{usuarioPessoaManageBean.usuarioPessoa.senha}" />
+			<p:password value="#{usuarioPessoaManageBean.usuarioPessoa.senha}" />
 		
 		</p:panelGrid>
 		<br />
 		<br />
 		<p:commandButton value="Salvar" ajax="false"
 			action="#{usuarioPessoaManageBean.salvar}" title="Salvar" />
-		<p:commandButton value="Novo" id="botaoNovo"  ajax="false"
+			
+		<p:commandButton value="Novo" id="botaoNovo"  
 			action="#{usuarioPessoaManageBean.novo}" immediate="true"
 			title="Novo">
-			<f:ajax execute="botaoNovo" render="@form" />
+			<f:ajax execute="botaoNovo"  render="@form" />
 		</p:commandButton>
 		<br />
 		<br />
@@ -110,9 +114,7 @@
 			<p:column headerText="Login">
 				<h:outputText value="#{user.login}" />
 			</p:column>
-			<p:column headerText="Email">
-				<h:outputText value="#{user.email}" />
-			</p:column>
+			
 
 			<p:column headerText="Editar">
 				<h:commandLink immediate="true" id="botaeditar">
@@ -125,30 +127,75 @@
 			</p:column>
 
 			<p:column headerText="Remover">
-				<h:commandLink action="#{usuarioPessoaManageBean.remover}"
-					immediate="true" id="botaoremover">
+				<p:commandLink action="#{usuarioPessoaManageBean.remover}" 
+					 id="botaoremover" >
 					<h:graphicImage url="resources/img/delete.png"
 						style="display:block; margin:auto;" />
 					<f:setPropertyActionListener value="#{user}"
 						target="#{usuarioPessoaManageBean.usuarioPessoa}" />
-					<f:ajax execute="botaoremover" render="@form :formulario:msg" />
-				</h:commandLink>
+					<f:ajax execute="botaoremover" render="@form" />
+				</p:commandLink>
 			</p:column>
 
 			<p:column>
 				<f:facet name="header">Telefones</f:facet>
 				<h:commandLink action="telefone.jsf" id="botatelefone">
-					<h:graphicImage url="resources/img/phone.png"
+					<p:graphicImage url="resources/img/phone.png"
 						style="display:block; margin:auto;" />
 					<f:param name="codigouser" value="#{user.id}" />
 				</h:commandLink>
 			</p:column>
 
+			<p:column headerText="E-mails">
+				<p:commandLink update=":formTatle:dialogEmail"
+					oncomplete="PF('dialogEmail').show()">
+					<f:setPropertyActionListener value="#{user}"
+						target="#{usuarioPessoaManageBean.usuarioPessoa}" />
+					<p:graphicImage url="resources/img/Email.png"
+						style="display:block; margin:auto;" />
+					
+				</p:commandLink>
+			</p:column>
+
 
 		</p:dataTable>
+		<p:dialog header="E-mails" id="dialogEmail" position="center" modal="true" 
+		width="520px" widgetVar="dialogEmail" resizable="false">
+
+			<p:panelGrid columns="3">
+				<h:outputLabel value="E-mail: " />
+				<p:inputText value="#{usuarioPessoaManageBean.emailUser.email}"
+					id="emailuseradd" />
+				<p:commandButton
+					actionListener="#{usuarioPessoaManageBean.addEmail}"
+					value="Adicionar" update="emailuseradd, dataTableEmail" />
+			</p:panelGrid>
+			
+			<p:dataTable value="#{usuarioPessoaManageBean.usuarioPessoa.emails}" var="email" id="dataTableEmail">
+				<p:column headerText="Id">
+					<h:outputLabel value="#{email.id}"/>				
+				</p:column>
+				<p:column>
+					<h:outputText value="#{email.email}"/>
+				</p:column>
+				<p:column headerText="Remover">
+					<h:commandLink id="botaoremoveremail" actionListener="#{usuarioPessoaManageBean.removerEmail}">
+					<f:param name="codigoemail" value="#{email.id}"/>
+					<f:ajax execute="botaoremoveremail" render="dataTableEmail"/>
+					<p:graphicImage url="resources/img/delete.png"
+						style="display:block; margin:auto;" />
+					</h:commandLink>
+				
+				</p:column>
+			
+			</p:dataTable>
+
+		</p:dialog>
 	</h:form>
+	<br/>
+	<p:chart type="bar" model="#{usuarioPessoaManageBean.barChartModel}" style="width: 100%; height: 500px;"/>
 
-
+	
 
 </h:body>
 </html>

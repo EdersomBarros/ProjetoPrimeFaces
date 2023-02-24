@@ -5,6 +5,7 @@
 
 	<class>model.UsuarioPessoa</class>
 	<class>model.TelefoneUser</class>
+	<class>model.EmailUser</class>
 	<properties>
 	<property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
 	<property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5433/projetohibernate"/>
