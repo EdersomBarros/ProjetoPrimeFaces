@@ -27,15 +27,22 @@
 			<h:outputText value="#{telefoneManegeBean.user.nome}" />
 
 			<p:outputLabel>Número: </p:outputLabel>
-			<p:inputText value="#{telefoneManegeBean.telefone.numero}" required="true" />
+			<p:inputMask value="#{telefoneManegeBean.telefone.numero}" mask="(99) 9 9999-9999" validateMask="true" required="true" />
 			<p:outputLabel>Tipo: </p:outputLabel>
-			<p:inputText value="#{telefoneManegeBean.telefone.tipo}" />
+			<p:selectOneMenu style="width:88%"
+				value="#{telefoneManegeBean.telefone.tipo}">
+				<f:selectItem itemLabel="Casa" itemValue="Casa" />
+				<f:selectItem itemLabel="Celular" itemValue="Celular" />
+				<f:selectItem itemLabel="Trabalho" itemValue="Trabalho" />
+			</p:selectOneMenu>
+			
 		</p:panelGrid>
 		<br />
 		<br />
 
 		<p:commandButton value="Salvar" action="#{telefoneManegeBean.salvar}" ajax="false"/>
-
+	<br/>
+	<br/>
 	</h:form>
 
 	<h:form id="formTelefones">
@@ -43,7 +50,7 @@
 		<p:dataTable value="#{telefoneManegeBean.user.telefoneUsers}"
 			var="fone" border="1">
 			<f:facet name="header">Lista de Telefones</f:facet>
-			<p:column headerText="Id">
+			<p:column headerText="Id" style="width:30px">
 				<p:outputLabel value="#{fone.id}" />
 			</p:column>
 			<p:column headerText="Numero">
@@ -53,7 +60,7 @@
 				<p:outputLabel value="#{fone.tipo}" />
 			</p:column>
 
-			<p:column headerText="Remover">
+			<p:column headerText="Remover" style="width:70px">
 				<h:commandLink action="#{telefoneManegeBean.removeTelefone}"
 					immediate="true" id="botaoremover">
 					<h:graphicImage url="resources/img/delete.png"
